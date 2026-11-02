@@ -147,7 +147,7 @@
     width: 100%; 
     height: 220px; 
     object-fit: cover;
-    object-position: center 15%; /* Центровка лиц */
+    object-position: center 15%;
     border-radius: 10px; 
     margin-bottom: 10px;
     transition: transform 0.3s;
@@ -166,7 +166,7 @@
   }
 
   .number {
-    font-size: 1.3em; font-weight: bold; color: #d32f2f;
+    font-size: 1.1em; font-weight: bold; color: #d32f2f;
     margin-bottom: 5px; text-transform: uppercase;
   }
   .player-card h3 {
@@ -226,10 +226,12 @@
     </select>
   </div>
 
-  <!-- Тренерский штаб (Добавлен id="coaches") -->
+  <!-- Тренерский штаб (ОБНОВЛЕНО) -->
   <section id="coaches" class="team-section">
     <h2>Тренерский штаб</h2>
     <div class="player-grid">
+      
+      <!-- 1. Куруми -->
       <a href="personen/kurumi_tokisaki.html" class="player-link">
         <div class="player-card">
           <img src="images/Kurumi.png" alt="Куруми Токисаки" />
@@ -237,6 +239,8 @@
           <h3>Куруми Токисаки</h3>
         </div>
       </a>
+
+      <!-- 2. Нанами -->
       <a href="personen/nanami_momodzono.html" class="player-link">
         <div class="player-card">
           <img src="images/Nanami.png" alt="Нанами Момодзоно" />
@@ -244,34 +248,71 @@
           <h3>Нанами Момодзоно</h3>
         </div>
       </a>
+
+      <!-- 3. Нао Томори (БЕЗ ФОТО) -->
       <a href="personen/nao_tomori.html" class="player-link">
         <div class="player-card">
-          <img src="images/Nao.png" alt="Нао Томори" />
-          <div class="number">Тренер вратарей</div>
+          <div class="no-photo-placeholder">Нет фото</div>
+          <div class="number">Старший тренер</div>
           <h3>Нао Томори</h3>
         </div>
       </a>
+
+      <!-- 4. Даниил Алалыкин -->
       <a href="personen/daniil_alalikin.html" class="player-link">
         <div class="player-card">
           <img src="images/Alalykin.png" alt="Даниил Алалыкин" />
-          <div class="number">Тренер нападающих</div>
+          <div class="number">Тренер</div>
           <h3>Даниил Алалыкин</h3>
         </div>
       </a>
+
+      <!-- 5. Каоруко Вагури -->
       <a href="personen/kaoruco_vaguri.html" class="player-link">
         <div class="player-card">
           <img src="images/Vaguri.png" alt="Каоруко Вагури" />
-          <div class="number">Тренер защитников</div>
+          <div class="number">Тренер</div>
           <h3>Каоруко Вагури</h3>
         </div>
       </a>
+
+      <!-- 6. Шакил О'Нилл -->
       <a href="personen/shaqil_onil.html" class="player-link">
         <div class="player-card">
           <img src="images/Onill.png" alt="Шакил О'Нилл" />
-          <div class="number">Тренер по физподготовке</div>
+          <div class="number">Тренер</div>
           <h3>Шакил О'Нилл</h3>
         </div>
       </a>
+
+      <!-- 7. Арима Кана (БЕЗ ФОТО) -->
+      <a href="#" class="player-link">
+        <div class="player-card">
+          <div class="no-photo-placeholder">Нет фото</div>
+          <div class="number">Видеотренер</div>
+          <h3>Арима Кана</h3>
+        </div>
+      </a>
+
+      <!-- 8. Тока Ятогами (БЕЗ ФОТО) -->
+      <a href="#" class="player-link">
+        <div class="player-card">
+          <div class="no-photo-placeholder">Нет фото</div>
+          <div class="number">Видеотренер</div>
+          <h3>Тока Ятогами</h3>
+        </div>
+      </a>
+
+      <!-- 9. Оригами Тобиичи (БЕЗ ФОТО) -->
+      <a href="#" class="player-link">
+        <div class="player-card">
+          <div class="no-photo-placeholder">Нет фото</div>
+          <div class="number">Тренер по ОФП</div>
+          <h3>Оригами Тобиичи</h3>
+        </div>
+      </a>
+
+      <!-- 10. Мику Изаёй -->
       <a href="personen/miku_izayoi.html" class="player-link">
         <div class="player-card">
           <img src="images/Miku.png" alt="Мику Изаёй" />
@@ -279,10 +320,38 @@
           <h3>Мику Изаёй</h3>
         </div>
       </a>
+
+      <!-- 11. Хитори Гото (БЕЗ ФОТО) -->
+      <a href="#" class="player-link">
+        <div class="player-card">
+          <div class="no-photo-placeholder">Нет фото</div>
+          <div class="number">Аналитик</div>
+          <h3>Хитори Гото</h3>
+        </div>
+      </a>
+
+      <!-- 12. Мэй Мисаки (БЕЗ ФОТО) -->
+      <a href="#" class="player-link">
+        <div class="player-card">
+          <div class="no-photo-placeholder">Нет фото</div>
+          <div class="number">Аналитик</div>
+          <h3>Мэй Мисаки</h3>
+        </div>
+      </a>
+
+      <!-- 13. Кисара (БЕЗ ФОТО) -->
+      <a href="#" class="player-link">
+        <div class="player-card">
+          <div class="no-photo-placeholder">Нет фото</div>
+          <div class="number">Аналитик</div>
+          <h3>Кисара</h3>
+        </div>
+      </a>
+
     </div>
   </section>
 
-  <!-- Вратари (Добавлен id="goalkeepers") -->
+  <!-- Вратари -->
   <section id="goalkeepers" class="team-section">
     <h2>Вратари</h2>
     <div class="player-grid">
@@ -303,7 +372,7 @@
     </div>
   </section>
 
-  <!-- Защитники (Добавлен id="defenders") -->
+  <!-- Защитники -->
   <section id="defenders" class="team-section">
     <h2>Защитники</h2>
     <div class="player-grid">
@@ -382,7 +451,7 @@
     </div>
   </section>
 
-  <!-- Нападающие (Добавлен id="forwards") -->
+  <!-- Нападающие -->
   <section id="forwards" class="team-section">
     <h2>Нападающие</h2>
     <div class="player-grid">
@@ -506,17 +575,14 @@
 
   // ФИЛЬТР КОМАНДЫ
   function filterTeam() {
-    // Получаем выбранное значение из шторки
     const filterValue = document.getElementById('teamFilter').value;
-    // Находим все секции с составом
     const sections = document.querySelectorAll('.team-section');
 
     sections.forEach(section => {
-      // Если выбрано "Все" или ID секции совпадает с выбранным значением
       if (filterValue === 'all' || section.id === filterValue) {
-        section.classList.remove('hidden'); // Показываем
+        section.classList.remove('hidden');
       } else {
-        section.classList.add('hidden'); // Скрываем
+        section.classList.add('hidden');
       }
     });
   }
