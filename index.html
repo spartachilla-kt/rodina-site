@@ -4,7 +4,6 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>ХК Родина Омск | Официальный сайт</title>
-<!-- Иконка сайта берется из папки images -->
 <link rel="icon" href="images/Logo.png" type="image/png">
 <style>
   /* Общие стили */
@@ -19,7 +18,7 @@
   a { text-decoration: none; color: inherit; }
   a:hover { text-decoration: underline; }
 
-  /* Хедер */
+  /* === ХЕДЕР И МЕНЮ (ГАМБУРГЕР) === */
   header {
     background: linear-gradient(135deg, #1a1a1a, #333);
     padding: 20px 40px;
@@ -27,6 +26,7 @@
     align-items: center;
     justify-content: space-between;
     transition: background 0.3s;
+    position: relative; /* Важно для выпадающего меню */
   }
   .header-container { display: flex; align-items: center; gap: 15px; }
   header h1 { margin: 0; font-size: 1.8em; color: #fff; }
@@ -36,20 +36,48 @@
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0,0,0,0.2);
   }
-  nav {
+
+  /* Кнопка "3 полоски" */
+  .menu-btn {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 2.2em;
+    cursor: pointer;
+    padding: 0;
+    transition: color 0.3s;
+  }
+  .menu-btn:hover { color: #d32f2f; }
+
+  /* Выпадающее меню */
+  .dropdown-menu {
+    display: none; /* Скрыто по умолчанию */
+    position: absolute;
+    right: 20px;
+    top: 100%; /* Появляется ровно под хедером */
     background-color: #222;
-    display: flex;
-    justify-content: center;
-    padding: 10px 0;
-    gap: 20px;
-    flex-wrap: wrap;
+    min-width: 180px;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.5);
+    z-index: 1000;
+    border-radius: 0 0 8px 8px;
+    border-top: 3px solid #d32f2f;
+    overflow: hidden;
   }
-  nav a {
-    color: #fff; font-weight: 600; font-size: 1em;
-    padding: 8px 12px; border-radius: 4px;
-    transition: background 0.3s, transform 0.3s;
+  .dropdown-menu a {
+    color: white;
+    padding: 12px 20px;
+    text-decoration: none;
+    display: block;
+    font-weight: 600;
+    transition: background 0.3s, padding-left 0.3s;
   }
-  nav a:hover { background-color: #444; transform: translateY(-2px); }
+  .dropdown-menu a:hover {
+    background-color: #d32f2f;
+    text-decoration: none;
+    padding-left: 25px; /* Небольшой эффект при наведении */
+  }
+  /* Класс, который показывает меню */
+  .dropdown-menu.show { display: block; }
 
   /* Баннер / Hero */
   .hero {
@@ -124,78 +152,33 @@
   .about-club h2 { margin-top: 0; color: #fff; border-bottom: 2px solid #666; }
   .about-club p { line-height: 1.5; }
 
-  /* =========================================
-     НОВАЯ ГАЛЕРЕЯ-КАРУСЕЛЬ (Пролистывание вбок)
-     ========================================= */
-  .gallery-wrapper {
-    position: relative;
-    margin-top: 20px;
-  }
-  
+  /* ГАЛЕРЕЯ */
+  .gallery-wrapper { position: relative; margin-top: 20px; }
   .gallery {
-    display: flex;
-    gap: 15px;
-    overflow-x: auto; /* Включает горизонтальную прокрутку */
-    scroll-behavior: smooth; /* Плавная прокрутка */
-    padding-bottom: 15px; /* Место для тени */
-    
-    /* Скрываем стандартный ползунок прокрутки (для красоты) */
-    scrollbar-width: none; /* Firefox */
-    -ms-overflow-style: none; /* IE/Edge */
+    display: flex; gap: 15px; overflow-x: auto; scroll-behavior: smooth;
+    padding-bottom: 15px; scrollbar-width: none; -ms-overflow-style: none;
   }
-  .gallery::-webkit-scrollbar {
-    display: none; /* Chrome/Safari/Opera */
-  }
-
+  .gallery::-webkit-scrollbar { display: none; }
   .gallery img {
-    flex: 0 0 calc(25% - 15px); /* Показываем ровно 4 фото в ряд на ПК */
-    height: 250px;
-    object-fit: cover;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    flex: 0 0 calc(25% - 15px); height: 250px; object-fit: cover;
+    border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.15);
     transition: transform 0.3s;
   }
-  .gallery img:hover {
-    transform: scale(1.02); /* Легкое увеличение при наведении */
-  }
-
-  /* Адаптивность галереи для телефонов (показываем 2 фото) */
+  .gallery img:hover { transform: scale(1.02); }
   @media(max-width: 768px){
-    .gallery img {
-      flex: 0 0 calc(50% - 15px);
-      height: 200px;
-    }
+    .gallery img { flex: 0 0 calc(50% - 15px); height: 200px; }
   }
-
-  /* Кнопки-стрелочки для листания */
   .gallery-btn {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    background-color: rgba(0, 0, 0, 0.6);
-    color: white;
-    border: none;
-    width: 45px;
-    height: 45px;
-    border-radius: 50%;
-    font-size: 20px;
-    cursor: pointer;
-    z-index: 10;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: background 0.3s, transform 0.2s;
+    position: absolute; top: 50%; transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.6); color: white; border: none;
+    width: 45px; height: 45px; border-radius: 50%; font-size: 20px;
+    cursor: pointer; z-index: 10; display: flex; align-items: center;
+    justify-content: center; transition: background 0.3s, transform 0.2s;
   }
-  .gallery-btn:hover {
-    background-color: #d32f2f;
-    transform: translateY(-50%) scale(1.1);
-  }
+  .gallery-btn:hover { background-color: #d32f2f; transform: translateY(-50%) scale(1.1); }
   .gallery-btn.prev { left: -15px; }
   .gallery-btn.next { right: -15px; }
-
-  @media(max-width: 768px){
-    .gallery-btn { display: none; } /* На телефонах листаем свайпом */
-  }
+  @media(max-width: 768px){ .gallery-btn { display: none; } }
 
   /* Видео/Трансляции */
   .video-section { margin-top: 40px; }
@@ -212,20 +195,23 @@
 
 <header>
   <div class="header-container">
-    <!-- Логотип из папки images -->
     <img src="images/Logo.png" alt="Логотип" class="header-logo" />
     <h1>ХК «Родина» Омск</h1>
   </div>
-</header>
+  
+  <!-- Кнопка меню -->
+  <button class="menu-btn" onclick="toggleMenu(event)">&#9776;</button>
 
-<nav>
-  <a href="index.html">Главная</a>
-  <a href="Состав.html">Команда</a>
-  <a href="Расписание.html">Расписание</a>
-  <a href="#">Билеты</a>
-  <a href="Новости.html">Новости</a>
-  <a href="Контакты.html">Контакты</a>
-</nav>
+  <!-- Выпадающее меню -->
+  <div class="dropdown-menu" id="dropdownMenu">
+    <a href="index.html">Главная</a>
+    <a href="Состав.html">Команда</a>
+    <a href="Расписание.html">Расписание</a>
+    <a href="#">Билеты</a>
+    <a href="Новости.html">Новости</a>
+    <a href="Контакты.html">Сотрудники</a>
+  </div>
+</header>
 
 <!-- Баннер/Слайдер -->
 <div class="hero">
@@ -257,15 +243,11 @@
   </div>
 </div>
 
-<!-- ГАЛЕРЕЯ (Пути ведут в images/foto/) -->
+<!-- ГАЛЕРЕЯ -->
 <div class="container">
   <h2>Галерея</h2>
-  
   <div class="gallery-wrapper">
-    <!-- Кнопка "Назад" -->
     <button class="gallery-btn prev" onclick="scrollGallery(-1)">&#10094;</button>
-    
-    <!-- Сама лента с фотографиями -->
     <div class="gallery" id="photoGallery">
       <img src="images/foto/foto1.png" alt="Фото 1" />
       <img src="images/foto/foto2.png" alt="Фото 2" />
@@ -274,8 +256,6 @@
       <img src="images/foto/foto5.png" alt="Фото 5" />
       <img src="images/foto/foto6.png" alt="Фото 6" />
     </div>
-
-    <!-- Кнопка "Вперед" -->
     <button class="gallery-btn next" onclick="scrollGallery(1)">&#10095;</button>
   </div>
 </div>
@@ -291,7 +271,6 @@
   <h2>Ближайшие матчи</h2>
   <div class="upcoming-matches">
     <div class="match">
-      <!-- Логотип из папки images -->
       <img src="images/Logo.png" alt="Команда соперник" />
       <div class="match-details">
         <h3>ХК Сибирь</h3>
@@ -300,7 +279,6 @@
       </div>
     </div>
     <div class="match">
-      <!-- Логотип из папки images -->
       <img src="images/Logo.png" alt="Команда соперник" />
       <div class="match-details">
         <h3>Авангард</h3>
@@ -352,8 +330,9 @@
   &copy; 2026 ХК «Родина» Омск. Все права защищены.
 </footer>
 
-<!-- Скрипт для работы стрелочек галереи -->
+<!-- Скрипты -->
 <script>
+  // Скрипт для галереи (стрелочки)
   function scrollGallery(direction) {
     const gallery = document.getElementById('photoGallery');
     const scrollAmount = gallery.clientWidth * 0.25; 
@@ -361,6 +340,21 @@
       left: direction * scrollAmount,
       behavior: 'smooth'
     });
+  }
+
+  // Скрипт для выпадающего меню
+  function toggleMenu(event) {
+    // Останавливаем всплытие события, чтобы клик по кнопке не закрывал меню сразу же
+    event.stopPropagation(); 
+    document.getElementById('dropdownMenu').classList.toggle('show');
+  }
+
+  // Закрытие меню при клике в любом другом месте страницы
+  window.onclick = function(event) {
+    var dropdown = document.getElementById('dropdownMenu');
+    if (!event.target.matches('.menu-btn') && dropdown.classList.contains('show')) {
+      dropdown.classList.remove('show');
+    }
   }
 </script>
 
