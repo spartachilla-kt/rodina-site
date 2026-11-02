@@ -68,6 +68,47 @@
   }
   .container:hover { box-shadow: 0 12px 24px rgba(0,0,0,0.2); }
 
+  /* === ФИЛЬТР (ШТОРКА) === */
+  .filter-container {
+    text-align: center;
+    margin-bottom: 30px;
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: inset 0 0 10px rgba(0,0,0,0.05);
+    border: 1px solid #eee;
+  }
+  .filter-container label {
+    font-size: 1.2em;
+    font-weight: bold;
+    margin-right: 15px;
+    color: #333;
+  }
+  .filter-container select {
+    padding: 10px 20px;
+    font-size: 1.1em;
+    border: 2px solid #d32f2f;
+    border-radius: 5px;
+    background-color: #fff;
+    color: #333;
+    cursor: pointer;
+    outline: none;
+    font-weight: 600;
+    font-family: inherit;
+    transition: box-shadow 0.3s, background 0.3s;
+  }
+  .filter-container select:hover {
+    background-color: #fff5f5;
+  }
+  .filter-container select:focus {
+    box-shadow: 0 0 8px rgba(211, 47, 47, 0.5);
+  }
+
+  /* Класс для скрытия разделов */
+  .hidden {
+    display: none !important;
+  }
+
   /* Заголовки */
   h2 {
     margin-top: 40px; margin-bottom: 20px; font-size: 2em;
@@ -83,11 +124,11 @@
   /* Сетка карточек */
   .player-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); 
     gap: 20px;
   }
 
-  /* Карточки игроков (единый стиль) */
+  /* Карточки игроков */
   .player-link {
     display: block; text-decoration: none; color: inherit;
   }
@@ -106,11 +147,11 @@
     width: 100%; 
     height: 220px; 
     object-fit: cover;
-    object-position: center 15%; /* <--- ВОТ ЭТА СТРОКА ВСЁ ИСПРАВИТ */
+    object-position: center 15%; /* Центровка лиц */
     border-radius: 10px; 
     margin-bottom: 10px;
     transition: transform 0.3s;
-    background-color: #eaeaea; /* Фон, если картинка не загрузится */
+    background-color: #eaeaea;
   }
   .player-card img:hover { transform: scale(1.05); }
   
@@ -144,6 +185,8 @@
     header h1 { font-size: 1.3em; }
     .header-logo { width: 50px; height: 50px; }
     .dropdown-menu { right: 10px; }
+    .filter-container { display: flex; flex-direction: column; gap: 10px; }
+    .filter-container label { margin-right: 0; }
   }
 </style>
 </head>
@@ -170,255 +213,275 @@
 </header>
 
 <div class="container">
-  <!-- Тренерский штаб -->
-  <h2>Тренерский штаб</h2>
-  <div class="player-grid">
-    <a href="personen/kurumi_tokisaki.html" class="player-link">
-      <div class="player-card">
-        <img src="images/Kurumi.png" alt="Куруми Токисаки" />
-        <div class="number">Главный тренер</div>
-        <h3>Куруми Токисаки</h3>
-      </div>
-    </a>
-    <a href="personen/nanami_momodzono.html" class="player-link">
-      <div class="player-card">
-        <img src="images/Nanami.png" alt="Нанами Момодзоно" />
-        <div class="number">Старший тренер</div>
-        <h3>Нанами Момодзоно</h3>
-      </div>
-    </a>
-    <a href="personen/nao_tomori.html" class="player-link">
-      <div class="player-card">
-        <img src="images/Nao.png" alt="Нао Томори" />
-        <div class="number">Тренер вратарей</div>
-        <h3>Нао Томори</h3>
-      </div>
-    </a>
-    <a href="personen/daniil_alalikin.html" class="player-link">
-      <div class="player-card">
-        <img src="images/Alalykin.png" alt="Даниил Алалыкин" />
-        <div class="number">Тренер нападающих</div>
-        <h3>Даниил Алалыкин</h3>
-      </div>
-    </a>
-    <a href="personen/kaoruco_vaguri.html" class="player-link">
-      <div class="player-card">
-        <img src="images/Vaguri.png" alt="Каоруко Вагури" />
-        <div class="number">Тренер защитников</div>
-        <h3>Каоруко Вагури</h3>
-      </div>
-    </a>
-    <a href="personen/shaqil_onil.html" class="player-link">
-      <div class="player-card">
-        <img src="images/Onill.png" alt="Шакил О'Нилл" />
-        <div class="number">Тренер по физподготовке</div>
-        <h3>Шакил О'Нилл</h3>
-      </div>
-    </a>
-    <a href="personen/miku_izayoi.html" class="player-link">
-      <div class="player-card">
-        <img src="images/Miku.png" alt="Мику Изаёй" />
-        <div class="number">Тренер по ОФП</div>
-        <h3>Мику Изаёй</h3>
-      </div>
-    </a>
+  
+  <!-- ФИЛЬТР -->
+  <div class="filter-container">
+    <label for="teamFilter">Показать раздел:</label>
+    <select id="teamFilter" onchange="filterTeam()">
+      <option value="all">Все (Полный состав)</option>
+      <option value="coaches">Тренерский штаб</option>
+      <option value="goalkeepers">Вратари</option>
+      <option value="defenders">Защитники</option>
+      <option value="forwards">Нападающие</option>
+    </select>
   </div>
 
-  <!-- Вратари -->
-  <h2>Вратари</h2>
-  <div class="player-grid">
-    <a href="players/vladislav_samoniev.html" class="player-link">
-      <div class="player-card">
-        <img src="images/Samoniev.png" alt="Владислав Самоньев" />
-        <div class="number">№30</div>
-        <h3>Владислав Самоньев</h3>
-      </div>
-    </a>
-    <a href="players/david_levimyan.html" class="player-link">
-      <div class="player-card">
-        <img src="images/Levi.png" alt="Давид Левимян" />
-        <div class="number">№60</div>
-        <h3>Давид Левимян</h3>
-      </div>
-    </a>
-  </div>
+  <!-- Тренерский штаб (Добавлен id="coaches") -->
+  <section id="coaches" class="team-section">
+    <h2>Тренерский штаб</h2>
+    <div class="player-grid">
+      <a href="personen/kurumi_tokisaki.html" class="player-link">
+        <div class="player-card">
+          <img src="images/Kurumi.png" alt="Куруми Токисаки" />
+          <div class="number">Главный тренер</div>
+          <h3>Куруми Токисаки</h3>
+        </div>
+      </a>
+      <a href="personen/nanami_momodzono.html" class="player-link">
+        <div class="player-card">
+          <img src="images/Nanami.png" alt="Нанами Момодзоно" />
+          <div class="number">Старший тренер</div>
+          <h3>Нанами Момодзоно</h3>
+        </div>
+      </a>
+      <a href="personen/nao_tomori.html" class="player-link">
+        <div class="player-card">
+          <img src="images/Nao.png" alt="Нао Томори" />
+          <div class="number">Тренер вратарей</div>
+          <h3>Нао Томори</h3>
+        </div>
+      </a>
+      <a href="personen/daniil_alalikin.html" class="player-link">
+        <div class="player-card">
+          <img src="images/Alalykin.png" alt="Даниил Алалыкин" />
+          <div class="number">Тренер нападающих</div>
+          <h3>Даниил Алалыкин</h3>
+        </div>
+      </a>
+      <a href="personen/kaoruco_vaguri.html" class="player-link">
+        <div class="player-card">
+          <img src="images/Vaguri.png" alt="Каоруко Вагури" />
+          <div class="number">Тренер защитников</div>
+          <h3>Каоруко Вагури</h3>
+        </div>
+      </a>
+      <a href="personen/shaqil_onil.html" class="player-link">
+        <div class="player-card">
+          <img src="images/Onill.png" alt="Шакил О'Нилл" />
+          <div class="number">Тренер по физподготовке</div>
+          <h3>Шакил О'Нилл</h3>
+        </div>
+      </a>
+      <a href="personen/miku_izayoi.html" class="player-link">
+        <div class="player-card">
+          <img src="images/Miku.png" alt="Мику Изаёй" />
+          <div class="number">Тренер по ОФП</div>
+          <h3>Мику Изаёй</h3>
+        </div>
+      </a>
+    </div>
+  </section>
 
-  <!-- Защитники -->
-  <h2>Защитники</h2>
-  <div class="player-grid">
-    <a href="players/mack_hollo.html" class="player-link">
-      <div class="player-card">
-        <img src="images/Mack.png" alt="Мак Холлоуэл" />
-        <div class="number">№16</div>
-        <h3>Мак Холлоуэл</h3>
-      </div>
-    </a>
-    <a href="players/anto_shchenko.html" class="player-link">
-      <div class="player-card">
-        <img src="images/Anto.png" alt="Даниэль Антощенко" />
-        <div class="number">№18</div>
-        <h3>Даниэль Антощенко</h3>
-      </div>
-    </a>
-    <a href="players/yakovskiy.html" class="player-link">
-      <div class="player-card">
-        <img src="images/Yack.png" alt="Александр Яковский" />
-        <div class="number">№44</div>
-        <h3>Александр Яковский</h3>
-      </div>
-    </a>
-    <a href="players/svechkov.html" class="player-link">
-      <div class="player-card">
-        <img src="images/Svechkov.png" alt="Егор Свечков" />
-        <div class="number">№49</div>
-        <h3>Егор Свечков</h3>
-      </div>
-    </a>
-    <a href="players/pluton.html" class="player-link">
-      <div class="player-card">
-        <img src="images/Pluton.png" alt="Алексей Плутон" />
-        <div class="number">№53</div>
-        <h3>Алексей Плутон</h3>
-      </div>
-    </a>
-    
-    <!-- ДОБАВЛЕН: Семён Чистяков №55 -->
-    <a href="#" class="player-link">
-      <div class="player-card">
-        <div class="no-photo-placeholder">Нет фото</div>
-        <div class="number">№55</div>
-        <h3>Семён Чистяков</h3>
-      </div>
-    </a>
+  <!-- Вратари (Добавлен id="goalkeepers") -->
+  <section id="goalkeepers" class="team-section">
+    <h2>Вратари</h2>
+    <div class="player-grid">
+      <a href="players/vladislav_samoniev.html" class="player-link">
+        <div class="player-card">
+          <img src="images/Samoniev.png" alt="Владислав Самоньев" />
+          <div class="number">№30</div>
+          <h3>Владислав Самоньев</h3>
+        </div>
+      </a>
+      <a href="players/david_levimyan.html" class="player-link">
+        <div class="player-card">
+          <img src="images/Levi.png" alt="Давид Левимян" />
+          <div class="number">№60</div>
+          <h3>Давид Левимян</h3>
+        </div>
+      </a>
+    </div>
+  </section>
 
-    <a href="players/orlov.html" class="player-link">
-      <div class="player-card">
-        <img src="images/Orlov.png" alt="Даниил Орлов" />
-        <div class="number">№62</div>
-        <h3>Даниил Орлов</h3>
-      </div>
-    </a>
-    <a href="players/baikal.html" class="player-link">
-      <div class="player-card">
-        <img src="images/Baikal.png" alt="Джереми Байкал" />
-        <div class="number">№73</div>
-        <h3>Джереми Байкал</h3>
-      </div>
-    </a>
-    <a href="players/gross.html" class="player-link">
-      <div class="player-card">
-        <img src="images/Gross.png" alt="Джордан Гросс" />
-        <div class="number">№78</div>
-        <h3>Джордан Гросс</h3>
-      </div>
-    </a>
-    <a href="players/belevich.html" class="player-link">
-      <div class="player-card">
-        <img src="images/Belevich.png" alt="Андрей Белевич" />
-        <div class="number">№93</div>
-        <h3>Андрей Белевич</h3>
-      </div>
-    </a>
-  </div>
+  <!-- Защитники (Добавлен id="defenders") -->
+  <section id="defenders" class="team-section">
+    <h2>Защитники</h2>
+    <div class="player-grid">
+      <a href="players/mack_hollo.html" class="player-link">
+        <div class="player-card">
+          <img src="images/Mack.png" alt="Мак Холлоуэл" />
+          <div class="number">№16</div>
+          <h3>Мак Холлоуэл</h3>
+        </div>
+      </a>
+      <a href="players/anto_shchenko.html" class="player-link">
+        <div class="player-card">
+          <img src="images/Anto.png" alt="Даниэль Антощенко" />
+          <div class="number">№18</div>
+          <h3>Даниэль Антощенко</h3>
+        </div>
+      </a>
+      <a href="players/yakovskiy.html" class="player-link">
+        <div class="player-card">
+          <img src="images/Yack.png" alt="Александр Яковский" />
+          <div class="number">№44</div>
+          <h3>Александр Яковский</h3>
+        </div>
+      </a>
+      <a href="players/svechkov.html" class="player-link">
+        <div class="player-card">
+          <img src="images/Svechkov.png" alt="Егор Свечков" />
+          <div class="number">№49</div>
+          <h3>Егор Свечков</h3>
+        </div>
+      </a>
+      <a href="players/pluton.html" class="player-link">
+        <div class="player-card">
+          <img src="images/Pluton.png" alt="Алексей Плутон" />
+          <div class="number">№53</div>
+          <h3>Алексей Плутон</h3>
+        </div>
+      </a>
+      
+      <a href="#" class="player-link">
+        <div class="player-card">
+          <div class="no-photo-placeholder">Нет фото</div>
+          <div class="number">№55</div>
+          <h3>Семён Чистяков</h3>
+        </div>
+      </a>
 
-  <!-- Нападающие -->
-  <h2>Нападающие</h2>
-  <div class="player-grid">
-    <a href="players/pulki.html" class="player-link">
-      <div class="player-card">
-        <img src="images/Pulki.png" alt="Теему Пулккинен" />
-        <div class="number">№6</div>
-        <h3>Теему Пулккинен</h3>
-      </div>
-    </a>
-    <a href="players/lemie.html" class="player-link">
-      <div class="player-card">
-        <img src="images/Lemie.png" alt="Марио Лемье" />
-        <div class="number">№7</div>
-        <h3>Марио Лемье</h3>
-      </div>
-    </a>
-    <a href="players/karnaukhov.html" class="player-link">
-      <div class="player-card">
-        <img src="images/Karnaukhov.png" alt="Павел Карнаухов" />
-        <div class="number">№15</div>
-        <h3>Павел Карнаухов</h3>
-      </div>
-    </a>
-    <a href="players/ladyug.html" class="player-link">
-      <div class="player-card">
-        <img src="images/Ladyug.png" alt="Михаил Ладюг" />
-        <div class="number">№17</div>
-        <h3>Михаил Ладюг</h3>
-      </div>
-    </a>
-    <a href="players/tkachov.html" class="player-link">
-      <div class="player-card">
-        <img src="images/Tkachev.png" alt="Владимир Ткачёв" />
-        <div class="number">№19</div>
-        <h3>Владимир Ткачёв</h3>
-      </div>
-    </a>
-    <a href="players/maier.html" class="player-link">
-      <div class="player-card">
-        <img src="images/Maier.png" alt="Тимо Майер" />
-        <div class="number">№28</div>
-        <h3>Тимо Майер</h3>
-      </div>
-    </a>
-    <a href="players/baraban.html" class="player-link">
-      <div class="player-card">
-        <img src="images/Baraban.png" alt="Кирилл Барабанов" />
-        <div class="number">№31</div>
-        <h3>Кирилл Барабанов</h3>
-      </div>
-    </a>
+      <a href="players/orlov.html" class="player-link">
+        <div class="player-card">
+          <img src="images/Orlov.png" alt="Даниил Орлов" />
+          <div class="number">№62</div>
+          <h3>Даниил Орлов</h3>
+        </div>
+      </a>
+      <a href="players/baikal.html" class="player-link">
+        <div class="player-card">
+          <img src="images/Baikal.png" alt="Джереми Байкал" />
+          <div class="number">№73</div>
+          <h3>Джереми Байкал</h3>
+        </div>
+      </a>
+      <a href="players/gross.html" class="player-link">
+        <div class="player-card">
+          <img src="images/Gross.png" alt="Джордан Гросс" />
+          <div class="number">№78</div>
+          <h3>Джордан Гросс</h3>
+        </div>
+      </a>
+      <a href="players/belevich.html" class="player-link">
+        <div class="player-card">
+          <img src="images/Belevich.png" alt="Андрей Белевич" />
+          <div class="number">№93</div>
+          <h3>Андрей Белевич</h3>
+        </div>
+      </a>
+    </div>
+  </section>
 
-    <!-- ДОБАВЛЕН: Павел Варфоломеев №66 -->
-    <a href="#" class="player-link">
-      <div class="player-card">
-        <div class="no-photo-placeholder">Нет фото</div>
-        <div class="number">№66</div>
-        <h3>Павел Варфоломеев</h3>
-      </div>
-    </a>
+  <!-- Нападающие (Добавлен id="forwards") -->
+  <section id="forwards" class="team-section">
+    <h2>Нападающие</h2>
+    <div class="player-grid">
+      <a href="players/pulki.html" class="player-link">
+        <div class="player-card">
+          <img src="images/Pulki.png" alt="Теему Пулккинен" />
+          <div class="number">№6</div>
+          <h3>Теему Пулккинен</h3>
+        </div>
+      </a>
+      <a href="players/lemie.html" class="player-link">
+        <div class="player-card">
+          <img src="images/Lemie.png" alt="Марио Лемье" />
+          <div class="number">№7</div>
+          <h3>Марио Лемье</h3>
+        </div>
+      </a>
+      <a href="players/karnaukhov.html" class="player-link">
+        <div class="player-card">
+          <img src="images/Karnaukhov.png" alt="Павел Карнаухов" />
+          <div class="number">№15</div>
+          <h3>Павел Карнаухов</h3>
+        </div>
+      </a>
+      <a href="players/ladyug.html" class="player-link">
+        <div class="player-card">
+          <img src="images/Ladyug.png" alt="Михаил Ладюг" />
+          <div class="number">№17</div>
+          <h3>Михаил Ладюг</h3>
+        </div>
+      </a>
+      <a href="players/tkachov.html" class="player-link">
+        <div class="player-card">
+          <img src="images/Tkachev.png" alt="Владимир Ткачёв" />
+          <div class="number">№19</div>
+          <h3>Владимир Ткачёв</h3>
+        </div>
+      </a>
+      <a href="players/maier.html" class="player-link">
+        <div class="player-card">
+          <img src="images/Maier.png" alt="Тимо Майер" />
+          <div class="number">№28</div>
+          <h3>Тимо Майер</h3>
+        </div>
+      </a>
+      <a href="players/baraban.html" class="player-link">
+        <div class="player-card">
+          <img src="images/Baraban.png" alt="Кирилл Барабанов" />
+          <div class="number">№31</div>
+          <h3>Кирилл Барабанов</h3>
+        </div>
+      </a>
 
-    <a href="players/anderson.html" class="player-link">
-      <div class="player-card">
-        <img src="images/Anderson.png" alt="Микаэль Андерсон" />
-        <div class="number">№77</div>
-        <h3>Микаэль Андерсон</h3>
-      </div>
-    </a>
-    <a href="players/lustik.html" class="player-link">
-      <div class="player-card">
-        <img src="images/Lustik.png" alt="Ээту Лустик" />
-        <div class="number">№91</div>
-        <h3>Ээту Лустик</h3>
-      </div>
-    </a>
-    <a href="players/podkolzin.html" class="player-link">
-      <div class="player-card">
-        <img src="images/Podkolzin.png" alt="Василий Подколзин" />
-        <div class="number">№92</div>
-        <h3>Василий Подколзин</h3>
-      </div>
-    </a>
-    <a href="players/hopkins.html" class="player-link">
-      <div class="player-card">
-        <img src="images/Hopkins.png" alt="Райан Ньюджент-Хопкинс" />
-        <div class="number">№94</div>
-        <h3>Райан Ньюджент-Хопкинс</h3>
-      </div>
-    </a>
-    <a href="players/alapov.html" class="player-link">
-      <div class="player-card">
-        <img src="images/Alapov.png" alt="Никита Алапов" />
-        <div class="number">№97</div>
-        <h3>Никита Алапов</h3>
-      </div>
-    </a>
-  </div>
+      <a href="#" class="player-link">
+        <div class="player-card">
+          <div class="no-photo-placeholder">Нет фото</div>
+          <div class="number">№66</div>
+          <h3>Павел Варфоломеев</h3>
+        </div>
+      </a>
+
+      <a href="players/anderson.html" class="player-link">
+        <div class="player-card">
+          <img src="images/Anderson.png" alt="Микаэль Андерсон" />
+          <div class="number">№77</div>
+          <h3>Микаэль Андерсон</h3>
+        </div>
+      </a>
+      <a href="players/lustik.html" class="player-link">
+        <div class="player-card">
+          <img src="images/Lustik.png" alt="Ээту Лустик" />
+          <div class="number">№91</div>
+          <h3>Ээту Лустик</h3>
+        </div>
+      </a>
+      <a href="players/podkolzin.html" class="player-link">
+        <div class="player-card">
+          <img src="images/Podkolzin.png" alt="Василий Подколзин" />
+          <div class="number">№92</div>
+          <h3>Василий Подколзин</h3>
+        </div>
+      </a>
+      <a href="players/hopkins.html" class="player-link">
+        <div class="player-card">
+          <img src="images/Hopkins.png" alt="Райан Ньюджент-Хопкинс" />
+          <div class="number">№94</div>
+          <h3>Райан Ньюджент-Хопкинс</h3>
+        </div>
+      </a>
+      <a href="players/alapov.html" class="player-link">
+        <div class="player-card">
+          <img src="images/Alapov.png" alt="Никита Алапов" />
+          <div class="number">№97</div>
+          <h3>Никита Алапов</h3>
+        </div>
+      </a>
+    </div>
+  </section>
+
 </div>
 
 <!-- Подвал -->
@@ -426,8 +489,9 @@
   &copy; 2026 ХК «Родина» Омск. Все права защищены.
 </footer>
 
-<!-- Скрипт для меню -->
+<!-- Скрипты -->
 <script>
+  // Меню (гамбургер)
   function toggleMenu(event) {
     event.stopPropagation(); 
     document.getElementById('dropdownMenu').classList.toggle('show');
@@ -438,6 +502,23 @@
     if (!event.target.matches('.menu-btn') && dropdown.classList.contains('show')) {
       dropdown.classList.remove('show');
     }
+  }
+
+  // ФИЛЬТР КОМАНДЫ
+  function filterTeam() {
+    // Получаем выбранное значение из шторки
+    const filterValue = document.getElementById('teamFilter').value;
+    // Находим все секции с составом
+    const sections = document.querySelectorAll('.team-section');
+
+    sections.forEach(section => {
+      // Если выбрано "Все" или ID секции совпадает с выбранным значением
+      if (filterValue === 'all' || section.id === filterValue) {
+        section.classList.remove('hidden'); // Показываем
+      } else {
+        section.classList.add('hidden'); // Скрываем
+      }
+    });
   }
 </script>
 
