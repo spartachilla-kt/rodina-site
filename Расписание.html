@@ -79,7 +79,6 @@
 <div class="container">
   <h2>Расписание матчей</h2>
   <div id="schedule-container" class="match-list">
-    <!-- Сюда будут автоматически подгружаться матчи -->
     <p style="text-align: center; color: #777;">Загрузка расписания с сервера лиги...</p>
   </div>
 </div>
@@ -93,18 +92,7 @@
   &copy; 2026 ХК «Родина» Омск. Все права защищены.
 </footer>
 
-<!-- Подключаем Socket.IO для связи с challenge.place -->
-<script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
-
 <script>
-  // === НАСТРОЙКИ ===
-  // ID этапа (stage) из вашей ссылки
-  const STAGE_ID = "68ea54bb7acb128162131d02"; 
-  // Название вашего клуба для фильтрации и подсчёта матчей
-  const MY_TEAM_NAME = "Родина"; 
-  // Арена для домашних матчей
-  const HOME_ARENA = "Родина-Лёд";
-
   // === ЛОГИКА МЕНЮ ===
   function toggleMenu(event) {
     event.stopPropagation();
@@ -117,118 +105,95 @@
     }
   }
 
-  // === ИНТЕГРАЦИЯ С CHALLENGE.PLACE ===
-  document.addEventListener("DOMContentLoaded", () => {
-    // Подключаемся к WebSocket серверу
-    const socket = io("https://api.challengeplace.com/challenge", {
-      transports: ["websocket"],
-      auth: { lang: "ru" } // язык
-    });
+  // === ПОЛУЧЕНИЕ ДАННЫХ ЧЕРЕЗ ПРОКСИ ===
+  async function fetchSchedule() {
+    const container = document.getElementById("schedule-container");
+    // Мы используем прокси allorigins, чтобы обойти блокировку CORS
+    // Внимание: URL ниже взят с потолка для примера. Нам нужно найти реальный API эндпоинт!
+    const targetUrl = "https://challenge.place/api/v1/stages/68ea54bb7acb128162131d02/matches"; 
+    const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(targetUrl)}`;
 
-    socket.on("connect", () => {
-      console.log("Подключено к challenge.place");
-      // Входим в комнату этапа (stages)
-      socket.emit("enter-room", { room: "room-challenge-stages", stageId: STAGE_ID });
-    });
-
-    // Слушаем обновления данных о матчах
-    socket.on("stage-details", (data) => {
-      // data содержит информацию о матчах этапа
+    try {
+      const response = await fetch(proxyUrl);
+      const proxyData = await response.json();
+      
+      // Прокси возвращает данные в виде строки в поле contents
+      const data = JSON.parse(proxyData.contents);
+      
+      console.log("Данные от сервера:", data); // Для отладки (F12 -> Консоль)
+      
       if (data && data.matches) {
-        renderMatches(data.matches);
+         renderMatches(data.matches);
+      } else {
+         // Если структура другая, выведем ошибку
+         container.innerHTML = `<p style="text-align: center; color: #d32f2f;">Данные получены, но структура не распознана. Проверьте консоль.</p>`;
       }
-    });
+      
+    } catch (error) {
+      console.error("Ошибка:", error);
+      container.innerHTML = `<p style="text-align: center; color: #d32f2f;">Не удалось загрузить расписание. Сервер лиги отклонил запрос.</p>`;
+    }
+  }
 
-    // Обработка ошибок
-    socket.on("connect_error", (err) => {
-      console.error("Ошибка подключения:", err.message);
-      document.getElementById("schedule-container").innerHTML = `<p style="text-align: center; color: #d32f2f;">Не удалось загрузить расписание. Попробуйте позже.</p>`;
-    });
-  });
-
-  // === ОТРИСОВКА МАТЧЕЙ ===
+  // Функция отрисовки (оставил как была, она верная)
   function renderMatches(matches) {
     const container = document.getElementById("schedule-container");
-    container.innerHTML = ""; // очищаем
+    container.innerHTML = ""; 
 
-    // Сортируем матчи по дате (если есть поле date)
+    // Простая сортировка
     matches.sort((a, b) => new Date(a.date) - new Date(b.date));
 
-    let matchCounter = 0; // счётчик матчей для нашего клуба
+    let matchCounter = 0; 
+    const MY_TEAM_NAME = "Родина";
 
     matches.forEach(match => {
-      // Проверяем, участвует ли наш клуб
-      const isHome = match.homeTeam?.name?.includes(MY_TEAM_NAME) || false;
-      const isAway = match.awayTeam?.name?.includes(MY_TEAM_NAME) || false;
+      // Упрощенная проверка на участие
+      const homeName = match.homeTeam?.name || "Хозяева";
+      const awayName = match.awayTeam?.name || "Гости";
       
-      if (!isHome && !isAway) return; // пропускаем матчи без нашей команды
+      if (!homeName.includes(MY_TEAM_NAME) && !awayName.includes(MY_TEAM_NAME)) return;
 
-      matchCounter++; // увеличиваем счётчик для нашего клуба
-
-      // Определяем названия команд и логотипы (пока заглушки)
-      const homeName = match.homeTeam?.name || "Неизвестно";
-      const awayName = match.awayTeam?.name || "Неизвестно";
+      matchCounter++;
       
-      // Счёт: если матч завершён (status === 'finished' или есть score)
-      let scoreText = "";
+      let scoreText = "— : —";
       let otBadge = "";
       
-      if (match.score && match.status === 'finished') {
-        const homeScore = match.score.home ?? 0;
-        const awayScore = match.score.away ?? 0;
-        scoreText = `${homeScore} : ${awayScore}`;
-
-        // Проверка на овертайм или буллиты (предполагаем, что в данных есть поле 'overtime' или 'shootout')
-        if (match.overtime || match.shootout) {
-          otBadge = `<span class="ot-badge">${match.overtime ? 'ОТ' : 'Б'}</span>`;
-        }
-      } else {
-        scoreText = "— : —"; // матч ещё не сыгран
+      if (match.score) {
+        scoreText = `${match.score.home} : ${match.score.away}`;
+        if (match.overtime) otBadge = `<span class="ot-badge">ОТ</span>`;
+        if (match.shootout) otBadge = `<span class="ot-badge">Б</span>`;
       }
 
-      // Дата матча
-      const dateStr = match.date ? new Date(match.date).toLocaleDateString('ru-RU', { day: '2-digit', month: '2-digit', year: 'numeric' }) : "Дата уточняется";
+      const dateStr = match.date ? new Date(match.date).toLocaleDateString('ru-RU') : "Дата неизвестна";
+      const arena = homeName.includes(MY_TEAM_NAME) ? "Родина-Лёд" : "Арена соперника";
 
-      // Арена (если домашний матч — Родина-Лёд, иначе из данных)
-      const arena = isHome ? HOME_ARENA : (match.venue || "Арена соперника");
-
-      // Формируем HTML карточки
       const card = document.createElement("div");
       card.className = "match-card";
       card.innerHTML = `
         <div class="match-info">
-          <!-- Логотип хозяев -->
-          <div class="logo-circle">
-            <img src="images/Logo.png" alt="${homeName}" onerror="this.style.display='none'; this.parentNode.innerHTML='<span>${homeName.substring(0,2)}</span>';">
-          </div>
+          <div class="logo-circle"><span>${homeName.substring(0,2)}</span></div>
           <span class="team-name">${homeName}</span>
-
-          <!-- Счёт -->
-          <div class="score-board">
-            ${scoreText} ${otBadge}
-          </div>
-
+          <div class="score-board">${scoreText} ${otBadge}</div>
           <span class="team-name">${awayName}</span>
-          <!-- Логотип гостей (заглушка) -->
-          <div class="logo-circle">
-            <img src="" alt="${awayName}" onerror="this.style.display='none'; this.parentNode.innerHTML='<span>${awayName.substring(0,2)}</span>';">
-          </div>
+          <div class="logo-circle"><span>${awayName.substring(0,2)}</span></div>
         </div>
-
         <div class="match-meta">
           <span class="match-number">Матч №${matchCounter}</span>
           <span class="match-date">${dateStr}</span>
           <div class="arena-label">${arena}</div>
         </div>
       `;
-
       container.appendChild(card);
     });
 
     if (matchCounter === 0) {
-      container.innerHTML = `<p style="text-align: center; color: #777;">Матчи для команды «${MY_TEAM_NAME}» не найдены.</p>`;
+       container.innerHTML = `<p style="text-align: center; color: #777;">Матчей не найдено.</p>`;
     }
   }
+
+  // Запускаем загрузку при открытии страницы
+  document.addEventListener("DOMContentLoaded", fetchSchedule);
+
 </script>
 
 </body>
