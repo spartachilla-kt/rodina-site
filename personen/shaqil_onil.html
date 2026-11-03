@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Шакил О'Нилл | ХК Родина Омск</title>
+<link rel="icon" href="../images/Logo.png" type="image/png">
+<style>
+  body { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; margin: 0; padding: 0; background-color: #f4f4f4; color: #333; line-height: 1.6; }
+  a { text-decoration: none; color: inherit; }
+  header { background: linear-gradient(135deg, #1a1a1a, #333); padding: 20px 40px; display: flex; align-items: center; justify-content: space-between; position: relative; }
+  .header-container { display: flex; align-items: center; gap: 15px; }
+  header h1 { margin: 0; font-size: 1.8em; color: #fff; }
+  .header-logo { width: 80px; height: 80px; object-fit: contain; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.2); }
+  .menu-btn { background: none; border: none; color: white; font-size: 2.2em; cursor: pointer; padding: 0; transition: color 0.3s; }
+  .menu-btn:hover { color: #d32f2f; }
+  .dropdown-menu { display: none; position: absolute; right: 20px; top: 100%; background-color: #222; min-width: 180px; box-shadow: 0 8px 16px rgba(0,0,0,0.5); z-index: 1000; border-radius: 0 0 8px 8px; border-top: 3px solid #d32f2f; overflow: hidden; }
+  .dropdown-menu a { color: white; padding: 12px 20px; text-decoration: none; display: block; font-weight: 600; transition: background 0.3s, padding-left 0.3s; }
+  .dropdown-menu a:hover { background-color: #d32f2f; padding-left: 25px; }
+  .dropdown-menu.show { display: block; }
+  .container { max-width: 1000px; margin: 30px auto; padding: 30px; background: #fff; border-radius: 12px; box-shadow: 0 8px 16px rgba(0,0,0,0.15); }
+  .back-btn { display: inline-block; margin-bottom: 20px; padding: 8px 15px; background-color: #eee; color: #333; border-radius: 5px; font-weight: bold; transition: background 0.3s; }
+  .back-btn:hover { background-color: #d32f2f; color: white; }
+  .profile-layout { display: flex; gap: 40px; align-items: flex-start; }
+  .profile-image { flex: 0 0 300px; }
+  .profile-image img { width: 100%; border-radius: 15px; object-fit: cover; box-shadow: 0 8px 16px rgba(0,0,0,0.2); background-color: #eaeaea; }
+  .profile-info { flex: 1; }
+  .profile-info h1 { margin-top: 0; font-size: 2.5em; color: #222; }
+  .role-badge { display: inline-block; background-color: #d32f2f; color: white; padding: 5px 15px; border-radius: 20px; font-weight: bold; margin-bottom: 20px; }
+  .profile-info h2 { color: #d32f2f; border-bottom: 2px solid #eee; padding-bottom: 5px; margin-top: 30px; }
+  .profile-info p, .profile-info li { font-size: 1.1em; line-height: 1.6; }
+  .profile-info ul { padding-left: 20px; }
+  footer { background: linear-gradient(135deg, #222, #111); color: #eee; text-align: center; padding: 30px 20px; margin-top: 40px; font-size: 0.95em; }
+  @media(max-width: 768px){
+    header { flex-direction: row; padding: 15px 20px; }
+    header h1 { font-size: 1.3em; }
+    .header-logo { width: 50px; height: 50px; }
+    .dropdown-menu { right: 10px; }
+    .profile-layout { flex-direction: column; align-items: center; text-align: center; }
+    .profile-image { flex: 0 0 auto; width: 250px; }
+    .profile-info ul { text-align: left; }
+  }
+</style>
+</head>
+<body>
+<header>
+  <div class="header-container">
+    <img src="../images/Logo.png" alt="Логотип" class="header-logo" />
+    <h1>ХК «Родина» Омск</h1>
+  </div>
+  <button class="menu-btn" onclick="toggleMenu(event)">&#9776;</button>
+  <div class="dropdown-menu" id="dropdownMenu">
+    <a href="../index.html">Главная</a>
+    <a href="../Состав.html">Команда</a>
+    <a href="../Расписание.html">Расписание</a>
+    <a href="#">Билеты</a>
+    <a href="../Новости.html">Новости</a>
+    <a href="../Контакты.html">Сотрудники</a>
+  </div>
+</header>
+
+<div class="container">
+  <a href="../Состав.html" class="back-btn">← Назад к составу</a>
+  <div class="profile-layout">
+    <div class="profile-image">
+      <img src="../images/Onill.png" alt="Шакил О'Нилл" />
+    </div>
+    <div class="profile-info">
+      <h1>Шакил О'Нилл</h1>
+      <div class="role-badge">Тренер по физподготовке</div>
+      <h2>Общая информация</h2>
+      <p>Шакил отвечает за физическую подготовку команды. Его методики тренировок выносливости и силы считаются одними из лучших в лиге.</p>
+      <h2>Карьерные достижения</h2>
+      <ul>
+        <li>Легенда баскетбола, переквалифицировавшийся в хоккей</li>
+        <li>Разработал уникальную систему ОФП</li>
+        <li>Подготовил 3 олимпийских чемпионов</li>
+      </ul>
+      <h2>Контактная информация</h2>
+      <p>Email: shaq@example.com</p>
+    </div>
+  </div>
+</div>
+<footer>&copy; 2026 ХК «Родина» Омск. Все права защищены.</footer>
+<script>
+  function toggleMenu(event) { event.stopPropagation(); document.getElementById('dropdownMenu').classList.toggle('show'); }
+  window.onclick = function(event) { var dropdown = document.getElementById('dropdownMenu'); if (!event.target.matches('.menu-btn') && dropdown.classList.contains('show')) { dropdown.classList.remove('show'); } }
+</script>
+</body>
+</html>
