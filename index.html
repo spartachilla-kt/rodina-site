@@ -26,7 +26,7 @@
     align-items: center;
     justify-content: space-between;
     transition: background 0.3s;
-    position: relative; /* Важно для выпадающего меню */
+    position: relative;
   }
   .header-container { display: flex; align-items: center; gap: 15px; }
   header h1 { margin: 0; font-size: 1.8em; color: #fff; }
@@ -39,44 +39,24 @@
 
   /* Кнопка "3 полоски" */
   .menu-btn {
-    background: none;
-    border: none;
-    color: white;
-    font-size: 2.2em;
-    cursor: pointer;
-    padding: 0;
-    transition: color 0.3s;
+    background: none; border: none; color: white;
+    font-size: 2.2em; cursor: pointer; padding: 0; transition: color 0.3s;
   }
   .menu-btn:hover { color: #d32f2f; }
 
   /* Выпадающее меню */
   .dropdown-menu {
-    display: none; /* Скрыто по умолчанию */
-    position: absolute;
-    right: 20px;
-    top: 100%; /* Появляется ровно под хедером */
-    background-color: #222;
-    min-width: 180px;
+    display: none; position: absolute; right: 20px; top: 100%;
+    background-color: #222; min-width: 180px;
     box-shadow: 0 8px 16px rgba(0,0,0,0.5);
-    z-index: 1000;
-    border-radius: 0 0 8px 8px;
-    border-top: 3px solid #d32f2f;
-    overflow: hidden;
+    z-index: 1000; border-radius: 0 0 8px 8px;
+    border-top: 3px solid #d32f2f; overflow: hidden;
   }
   .dropdown-menu a {
-    color: white;
-    padding: 12px 20px;
-    text-decoration: none;
-    display: block;
-    font-weight: 600;
-    transition: background 0.3s, padding-left 0.3s;
+    color: white; padding: 12px 20px; text-decoration: none;
+    display: block; font-weight: 600; transition: background 0.3s, padding-left 0.3s;
   }
-  .dropdown-menu a:hover {
-    background-color: #d32f2f;
-    text-decoration: none;
-    padding-left: 25px; /* Небольшой эффект при наведении */
-  }
-  /* Класс, который показывает меню */
+  .dropdown-menu a:hover { background-color: #d32f2f; text-decoration: none; padding-left: 25px; }
   .dropdown-menu.show { display: block; }
 
   /* Баннер / Hero */
@@ -152,8 +132,44 @@
   .about-club h2 { margin-top: 0; color: #fff; border-bottom: 2px solid #666; }
   .about-club p { line-height: 1.5; }
 
-  /* ГАЛЕРЕЯ */
-  .gallery-wrapper { position: relative; margin-top: 20px; }
+  /* === ГАЛЕРЕЯ И АЛЬБОМЫ === */
+  .album-container {
+    margin-top: 20px;
+    background: #fafafa;
+    border-radius: 12px;
+    padding: 20px;
+    border: 1px solid #eee;
+  }
+  
+  .album-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    border-bottom: 2px dashed #ccc;
+    padding-bottom: 15px;
+  }
+  
+  .album-header h3 {
+    margin: 0;
+    font-size: 1.5em;
+    color: #1a1a1a;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .photo-count {
+    background-color: #d32f2f;
+    color: white;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 0.85em;
+    font-weight: bold;
+    white-space: nowrap;
+  }
+
+  .gallery-wrapper { position: relative; }
   .gallery {
     display: flex; gap: 15px; overflow-x: auto; scroll-behavior: smooth;
     padding-bottom: 15px; scrollbar-width: none; -ms-overflow-style: none;
@@ -167,6 +183,7 @@
   .gallery img:hover { transform: scale(1.02); }
   @media(max-width: 768px){
     .gallery img { flex: 0 0 calc(50% - 15px); height: 200px; }
+    .album-header { flex-direction: column; align-items: flex-start; gap: 10px; }
   }
   .gallery-btn {
     position: absolute; top: 50%; transform: translateY(-50%);
@@ -243,21 +260,31 @@
   </div>
 </div>
 
-<!-- ГАЛЕРЕЯ -->
+<!-- ГАЛЕРЕЯ (АЛЬБОМ) -->
 <div class="container">
   <h2>Галерея</h2>
-  <div class="gallery-wrapper">
-    <button class="gallery-btn prev" onclick="scrollGallery(-1)">&#10094;</button>
-    <div class="gallery" id="photoGallery">
-      <img src="images/foto/foto1.png" alt="Фото 1" />
-      <img src="images/foto/foto2.png" alt="Фото 2" />
-      <img src="images/foto/foto3.png" alt="Фото 3" />
-      <img src="images/foto/foto4.png" alt="Фото 4" />
-      <img src="images/foto/foto5.png" alt="Фото 5" />
-      <img src="images/foto/foto6.png" alt="Фото 6" />
+  
+  <!-- Блок альбома -->
+  <div class="album-container">
+    <div class="album-header">
+      <h3>📸 Кубок Омска 2026 03.10-01.11</h3>
+      <span class="photo-count">6 фото</span>
     </div>
-    <button class="gallery-btn next" onclick="scrollGallery(1)">&#10095;</button>
+    
+    <div class="gallery-wrapper">
+      <button class="gallery-btn prev" onclick="scrollGallery(-1)">&#10094;</button>
+      <div class="gallery" id="photoGallery">
+        <img src="images/foto/foto1.png" alt="Фото 1" />
+        <img src="images/foto/foto2.png" alt="Фото 2" />
+        <img src="images/foto/foto3.png" alt="Фото 3" />
+        <img src="images/foto/foto4.png" alt="Фото 4" />
+        <img src="images/foto/foto5.png" alt="Фото 5" />
+        <img src="images/foto/foto6.png" alt="Фото 6" />
+      </div>
+      <button class="gallery-btn next" onclick="scrollGallery(1)">&#10095;</button>
+    </div>
   </div>
+
 </div>
 
 <!-- Видео/Трансляции -->
@@ -344,12 +371,10 @@
 
   // Скрипт для выпадающего меню
   function toggleMenu(event) {
-    // Останавливаем всплытие события, чтобы клик по кнопке не закрывал меню сразу же
     event.stopPropagation(); 
     document.getElementById('dropdownMenu').classList.toggle('show');
   }
 
-  // Закрытие меню при клике в любом другом месте страницы
   window.onclick = function(event) {
     var dropdown = document.getElementById('dropdownMenu');
     if (!event.target.matches('.menu-btn') && dropdown.classList.contains('show')) {
