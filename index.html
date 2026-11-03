@@ -137,7 +137,6 @@
      ========================================= */
   .albums-grid {
     display: grid;
-    /* Карточки будут автоматически выстраиваться в ряд, минимальная ширина 400px */
     grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
     gap: 20px;
     margin-top: 20px;
@@ -198,7 +197,6 @@
   }
   .gallery::-webkit-scrollbar { display: none; }
   
-  /* Внутри карточки альбома фото занимают 100% ширины карточки (показываем по одному) */
   .gallery img {
     flex: 0 0 100%; 
     height: 220px; 
@@ -297,15 +295,15 @@
       </div>
       
       <div class="gallery-wrapper">
-        <!-- Уникальный ID для первой галереи -->
         <button class="gallery-btn prev" onclick="scrollGallery('gallery1', -1)">&#10094;</button>
         <div class="gallery" id="gallery1">
-          <img src="images/foto/foto1.png" alt="Фото 1" />
-          <img src="images/foto/foto2.png" alt="Фото 2" />
-          <img src="images/foto/foto3.png" alt="Фото 3" />
-          <img src="images/foto/foto4.png" alt="Фото 4" />
-          <img src="images/foto/foto5.png" alt="Фото 5" />
-          <img src="images/foto/foto6.png" alt="Фото 6" />
+          <!-- ЗДЕСЬ ИЗМЕНЕНО РАСШИРЕНИЕ НА .jpg -->
+          <img src="images/foto/foto1.jpg" alt="Фото 1" />
+          <img src="images/foto/foto2.jpg" alt="Фото 2" />
+          <img src="images/foto/foto3.jpg" alt="Фото 3" />
+          <img src="images/foto/foto4.jpg" alt="Фото 4" />
+          <img src="images/foto/foto5.jpg" alt="Фото 5" />
+          <img src="images/foto/foto6.jpg" alt="Фото 6" />
         </div>
         <button class="gallery-btn next" onclick="scrollGallery('gallery1', 1)">&#10095;</button>
       </div>
@@ -319,13 +317,12 @@
       </div>
       
       <div class="gallery-wrapper">
-        <!-- Уникальный ID для второй галереи -->
         <button class="gallery-btn prev" onclick="scrollGallery('gallery2', -1)">&#10094;</button>
         <div class="gallery" id="gallery2">
-          <!-- Если у вас нет других фото, можете временно оставить эти же, чтобы посмотреть, как работает -->
-          <img src="images/foto/foto1.png" alt="Тренировка 1" />
-          <img src="images/foto/foto2.png" alt="Тренировка 2" />
-          <img src="images/foto/foto3.png" alt="Тренировка 3" />
+          <!-- ЗДЕСЬ ТОЖЕ ИЗМЕНЕНО РАСШИРЕНИЕ НА .jpg -->
+          <img src="images/foto/foto1.jpg" alt="Тренировка 1" />
+          <img src="images/foto/foto2.jpg" alt="Тренировка 2" />
+          <img src="images/foto/foto3.jpg" alt="Тренировка 3" />
         </div>
         <button class="gallery-btn next" onclick="scrollGallery('gallery2', 1)">&#10095;</button>
       </div>
@@ -407,10 +404,10 @@
 
 <!-- Скрипты -->
 <script>
-  // Скрипт для галереи (теперь принимает ID галереи, чтобы не листать все сразу)
+  // Скрипт для галереи
   function scrollGallery(galleryId, direction) {
     const gallery = document.getElementById(galleryId);
-    const scrollAmount = gallery.clientWidth; // Прокрутка на ширину одного фото
+    const scrollAmount = gallery.clientWidth; 
     gallery.scrollBy({
       left: direction * scrollAmount,
       behavior: 'smooth'
